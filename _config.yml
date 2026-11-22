@@ -1,0 +1,41 @@
+title: Bun Voyage
+tagline: Burgers, ribs & steak, rated around the world.
+description: Honest reviews of burgers, ribs, steak and BBQ from wherever I happen to be eating.
+author: Bun Voyage
+
+# GitHub Pages project site lives at https://akul23.github.io/bun-voyage
+# If you later move to your own domain (e.g. bunvoyage.blog), set baseurl to ""
+# and url to "https://bunvoyage.blog".
+url: "https://akul23.github.io"
+baseurl: "/bun-voyage"
+
+markdown: kramdown
+permalink: pretty
+timezone: Europe/Budapest
+
+collections:
+  reviews:
+    output: true
+    permalink: /reviews/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: reviews
+    values:
+      layout: review
+
+# Food types: the key goes in each review's `category:` field.
+# (Named food_types because Jekyll reserves "categories".)
+food_types:
+  burger: { label: "Burger", emoji: "🍔", color: "#d9412b" }
+  ribs:   { label: "Ribs",   emoji: "🍖", color: "#8a3b12" }
+  steak:  { label: "Steak",  emoji: "🥩", color: "#b0204f" }
+  bbq:    { label: "BBQ",    emoji: "🔥", color: "#e08a00" }
+  other:  { label: "Other",  emoji: "🍽️", color: "#4a6b5d" }
+
+exclude:
+  - README.md
+  - _templates
+  - Gemfile
+  - Gemfile.lock

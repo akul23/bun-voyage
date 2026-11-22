@@ -1,0 +1,17 @@
+{% assign r = include.review %}{% assign t = site.food_types[r.category] | default: site.food_types.other %}
+<a class="card" href="{{ r.url | relative_url }}" style="--accent: {{ t.color }}">
+  <div class="card-media">
+    {% if r.image %}
+      <img src="{{ r.image | relative_url }}" alt="{{ r.dish | default: r.title | escape }}" loading="lazy">
+    {% else %}
+      <span class="card-emoji" aria-hidden="true">{{ t.emoji }}</span>
+    {% endif %}
+    <span class="score-badge">{{ r.rating }}</span>
+  </div>
+  <div class="card-body">
+    <span class="pill">{{ t.emoji }} {{ t.label }}</span>
+    <h3>{{ r.title }}</h3>
+    {% if r.dish %}<p class="card-dish">{{ r.dish }}</p>{% endif %}
+    <p class="card-place"><span data-flag="{{ r.country_code }}"></span> {{ r.city }}, {{ r.country }}</p>
+  </div>
+</a>

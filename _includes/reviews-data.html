@@ -1,0 +1,23 @@
+<script>
+window.BV_TYPES = {
+{% for c in site.food_types %}  {{ c[0] | jsonify }}: {{ c[1] | jsonify }}{% unless forloop.last %},{% endunless %}
+{% endfor %}};
+window.BV_REVIEWS = [
+{% for r in site.reviews %}  {
+    "title": {{ r.title | jsonify }},
+    "dish": {{ r.dish | jsonify }},
+    "category": {{ r.category | default: "other" | jsonify }},
+    "city": {{ r.city | jsonify }},
+    "country": {{ r.country | jsonify }},
+    "country_code": {{ r.country_code | jsonify }},
+    "lat": {% if r.lat %}{{ r.lat }}{% else %}null{% endif %},
+    "lng": {% if r.lng %}{{ r.lng }}{% else %}null{% endif %},
+    "rating": {{ r.rating | default: 0 }},
+    "price": {{ r.price | jsonify }},
+    "date": {{ r.date | date: "%Y-%m-%d" | jsonify }},
+    "summary": {{ r.summary | jsonify }},
+    "image": {% if r.image %}{{ r.image | relative_url | jsonify }}{% else %}null{% endif %},
+    "url": {{ r.url | relative_url | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+{% endfor %}];
+</script>

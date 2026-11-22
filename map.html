@@ -1,0 +1,19 @@
+---
+layout: default
+title: Map
+permalink: /map/
+needs_map: true
+scripts:
+  - /assets/js/map.js
+---
+<section class="wrap section page-top">
+  <h1 class="page-title">The map</h1>
+  <p class="page-sub">Every place I've reviewed. Tap a pin for the score.</p>
+  <div class="filters" id="map-filters">
+    <button class="chip active" data-cat="all">All</button>
+    {% for c in site.food_types %}
+    <button class="chip" data-cat="{{ c[0] }}"><span class="dot" style="background: {{ c[1].color }}"></span>{{ c[1].label }}</button>
+    {% endfor %}
+  </div>
+  <div id="world-map" class="world-map"></div>
+</section>

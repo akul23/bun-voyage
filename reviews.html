@@ -1,0 +1,21 @@
+---
+layout: default
+title: Reviews
+permalink: /reviews/
+---
+{% assign by_date = site.reviews | sort: "date" | reverse %}
+<section class="wrap section page-top">
+  <h1 class="page-title">All reviews</h1>
+  <p class="page-sub">Every burger, rack and steak, newest first.</p>
+  <div class="filters" data-filter-target="#review-grid">
+    <button class="chip active" data-cat="all">All</button>
+    {% for c in site.food_types %}
+    <button class="chip" data-cat="{{ c[0] }}">{{ c[1].emoji }} {{ c[1].label }}</button>
+    {% endfor %}
+  </div>
+  <div class="grid" id="review-grid">
+    {% for r in by_date %}
+      <div class="grid-item" data-cat="{{ r.category | default: 'other' }}">{% include review-card.html review=r %}</div>
+    {% endfor %}
+  </div>
+</section>

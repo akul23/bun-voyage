@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title and page.url != "/" %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.summary | default: site.description | strip_html | escape }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  {% if page.needs_map %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  {% endif %}
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="{{ '/' | relative_url }}">
+        <span class="logo-mark">🍔</span>
+        <span class="logo-text">Bun&nbsp;Voyage</span>
+      </a>
+      <nav class="nav">
+        <a href="{{ '/reviews/' | relative_url }}" {% if page.url contains '/reviews/' %}class="active"{% endif %}>Reviews</a>
+        <a href="{{ '/leaderboard/' | relative_url }}" {% if page.url == '/leaderboard/' %}class="active"{% endif %}>Leaderboard</a>
+        <a href="{{ '/map/' | relative_url }}" {% if page.url == '/map/' %}class="active"{% endif %}>Map</a>
+        <a href="{{ '/about/' | relative_url }}" {% if page.url == '/about/' %}class="active"{% endif %}>About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>🍔 {{ site.title }} · {{ site.tagline }}</span>
+      <span>© {{ site.time | date: "%Y" }}</span>
+    </div>
+  </footer>
+
+  {% include reviews-data.html %}
+  <script src="{{ '/assets/js/site.js' | relative_url }}"></script>
+  {% if page.needs_map %}
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  {% endif %}
+  {% for s in page.scripts %}
+  <script src="{{ s | relative_url }}"></script>
+  {% endfor %}
+</body>
+</html>

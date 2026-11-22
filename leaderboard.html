@@ -1,0 +1,34 @@
+---
+layout: default
+title: Leaderboard
+permalink: /leaderboard/
+scripts:
+  - /assets/js/leaderboard.js
+---
+<section class="wrap section page-top">
+  <h1 class="page-title">Leaderboard</h1>
+  <p class="page-sub">Ranked by overall score. Filter by food or country.</p>
+
+  <div class="board-controls">
+    <div class="filters" id="cat-filters">
+      <button class="chip active" data-cat="all">All</button>
+      {% for c in site.food_types %}
+      <button class="chip" data-cat="{{ c[0] }}">{{ c[1].emoji }} {{ c[1].label }}</button>
+      {% endfor %}
+    </div>
+    <label class="select">
+      <span>Country</span>
+      <select id="country-filter"><option value="all">Everywhere</option></select>
+    </label>
+  </div>
+
+  <div class="table-wrap">
+    <table class="board">
+      <thead>
+        <tr><th>#</th><th>Place</th><th class="hide-sm">Type</th><th>Where</th><th class="hide-sm">Visited</th><th class="num">Score</th></tr>
+      </thead>
+      <tbody id="board-body"></tbody>
+    </table>
+    <p class="empty" id="board-empty" hidden>Nothing here yet. Go eat something.</p>
+  </div>
+</section>

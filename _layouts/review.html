@@ -1,0 +1,73 @@
+---
+layout: default
+needs_map: true
+scripts:
+  - /assets/js/review-map.js
+---
+{% assign t = site.food_types[page.category] | default: site.food_types.other %}
+<article class="review" style="--accent: {{ t.color }}">
+  <header class="review-hero">
+    <div class="wrap review-hero-inner">
+      <div class="review-heading">
+        <a class="back" href="{{ '/reviews/' | relative_url }}">← All reviews</a>
+        <span class="pill">{{ t.emoji }} {{ t.label }}</span>
+        <h1>{{ page.title }}</h1>
+        {% if page.dish %}<p class="review-dish">{{ page.dish }}</p>{% endif %}
+        <ul class="meta">
+          <li><span data-flag="{{ page.country_code }}"></span> {{ page.city }}, {{ page.country }}</li>
+          <li>Visited {{ page.date | date: "%-d %B %Y" }}</li>
+          {% if page.price %}<li>{{ page.price }}</li>{% endif %}
+        </ul>
+      </div>
+      <div class="big-score" aria-label="Score {{ page.rating }} out of 10">
+        <span class="big-score-num">{{ page.rating }}</span>
+        <span class="big-score-of">/ 10</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap review-layout">
+    <div class="review-main">
+      {% if page.image %}
+        <img class="review-photo" src="{{ page.image | relative_url }}" alt="{{ page.dish | default: page.title | escape }}">
+      {% endif %}
+      {% if page.summary %}<p class="lede">{{ page.summary }}</p>{% endif %}
+      <div class="prose">
+        {{ content }}
+      </div>
+    </div>
+
+    <aside class="review-side">
+      {% if page.scores %}
+      <section class="panel">
+        <h2>Score breakdown</h2>
+        <ul class="bars">
+          {% for s in page.scores %}
+          <li>
+            <span class="bar-label">{{ s[0] | replace: "_", " " | capitalize }}</span>
+            <span class="bar"><span style="width: {{ s[1] | times: 10 }}%"></span></span>
+            <span class="bar-num">{{ s[1] }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+
+      {% if page.verdict %}
+      <section class="panel verdict">
+        <h2>Verdict</h2>
+        <p>{{ page.verdict }}</p>
+      </section>
+      {% endif %}
+
+      {% if page.lat and page.lng %}
+      <section class="panel">
+        <h2>Where</h2>
+        <div id="mini-map" class="mini-map" data-lat="{{ page.lat }}" data-lng="{{ page.lng }}" data-color="{{ t.color }}"></div>
+        {% if page.address %}<p class="address">{{ page.address }}</p>{% endif %}
+        <a class="small-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query={{ page.lat }},{{ page.lng }}">Open in Google Maps ↗</a>
+      </section>
+      {% endif %}
+    </aside>
+  </div>
+</article>

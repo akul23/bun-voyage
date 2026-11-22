@@ -1,0 +1,58 @@
+---
+layout: default
+title: Home
+---
+{% assign by_date = site.reviews | sort: "date" | reverse %}
+{% assign by_score = site.reviews | sort: "rating" | reverse %}
+{% assign countries = site.reviews | map: "country" | uniq %}
+{% assign cities = site.reviews | map: "city" | uniq %}
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">A field guide to meat, one bite at a time</p>
+      <h1>Bun<br>Voyage.</h1>
+      <p class="hero-sub">{{ site.description }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ '/leaderboard/' | relative_url }}">See the leaderboard</a>
+        <a class="btn btn-ghost" href="{{ '/map/' | relative_url }}">Explore the map</a>
+      </div>
+    </div>
+    <dl class="stats">
+      <div><dt>Reviews</dt><dd>{{ site.reviews.size }}</dd></div>
+      <div><dt>Countries</dt><dd>{{ countries.size }}</dd></div>
+      <div><dt>Cities</dt><dd>{{ cities.size }}</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section-head">
+    <h2>Latest bites</h2>
+    <a class="small-link" href="{{ '/reviews/' | relative_url }}">All reviews →</a>
+  </div>
+  <div class="grid">
+    {% for r in by_date limit: 6 %}
+      {% include review-card.html review=r %}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section-head">
+    <h2>Hall of fame</h2>
+    <a class="small-link" href="{{ '/leaderboard/' | relative_url }}">Full leaderboard →</a>
+  </div>
+  <ol class="mini-board">
+    {% for r in by_score limit: 5 %}
+    {% assign t = site.food_types[r.category] | default: site.food_types.other %}
+    <li>
+      <a href="{{ r.url | relative_url }}">
+        <span class="rank">{{ forloop.index }}</span>
+        <span class="mb-name"><strong>{{ r.title }}</strong><small>{{ t.emoji }} {{ r.dish | default: t.label }} · <span data-flag="{{ r.country_code }}"></span> {{ r.city }}</small></span>
+        <span class="mb-score" style="--accent: {{ t.color }}">{{ r.rating }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
